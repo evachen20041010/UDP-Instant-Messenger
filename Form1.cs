@@ -62,5 +62,26 @@ namespace _20230424
             S.Send(B, B.Length, IP, Port);  //發送資料到指定位置
             S.Close();  //關閉通訊器
         }
+        
+        //找出本機IP
+        private string MyIP()
+        {
+            string hn = Dns.GetHostName();  //本機電腦名稱
+            IPAddress[] ip = Dns.GetHostEntry(hn).AddressList;  //本機IP陣列
+            foreach(IPAddress it in ip)
+            {
+                if(it.AddressFamily == AddressFamily.InterNetwork)  //如果是IPv4格式
+                {
+                    return it.ToString();   //回傳此IP字串
+                }
+            }
+            return "";  //找不到合格IP
+        }
+
+        //表單載入
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.Text += " " + MyIP();  //顯示本機IP於標題列
+        }
     }
 }
